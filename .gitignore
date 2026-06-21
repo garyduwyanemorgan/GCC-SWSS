@@ -21,3 +21,4 @@ web/out/
 # Local dev artifacts
 leads.jsonl
 *.pdf
+!docs/*.pdf   # keep branded client handouts (e.g. the executive summary)
