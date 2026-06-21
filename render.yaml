@@ -7,7 +7,7 @@ services:
     dockerfilePath: ./api/Dockerfile
     dockerContext: .
     healthCheckPath: /health
-    plan: starter
+    plan: free      # upgrade to 'starter' to avoid cold-start spin-down
     envVars:
       - key: SWSS_CORS_ORIGINS
         sync: false           # e.g. https://your-app.vercel.app
