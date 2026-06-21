@@ -51,6 +51,13 @@ The golden test (`tests/test_pipeline.py`) asserts the platform's thesis: an
 amendment can raise available-water storage while the irrigation requirement does
 **not** fall proportionally — proving retention ≠ saving.
 
+## Documentation
+
+- [docs/EXECUTIVE_SUMMARY.md](docs/EXECUTIVE_SUMMARY.md) — 2-page non-technical overview for decision-makers.
+- [docs/SCIENTIFIC_BASIS.md](docs/SCIENTIFIC_BASIS.md) — full defensibility document: every equation, citation, assumption, limitation, and the validation gap. Built to be interrogated.
+- [docs/WORKED_EXAMPLE.md](docs/WORKED_EXAMPLE.md) — one result traced end-to-end with real engine numbers and hand-checked equations.
+- [DEPLOY.md](DEPLOY.md) — Supabase → Render → Vercel → GoDaddy deployment.
+
 ## Phasing
 
 - **Phase 1 (done):** engine — all six layers, flux attribution, Monte Carlo, WSI, economics, PDF.
