@@ -1,0 +1,8 @@
+physics/
+
+soil/
+hydrology/
+climate/
+plants/
+salinity/
+economics/

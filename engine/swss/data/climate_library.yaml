@@ -1,0 +1,33 @@
+# Reference GCC climate normals (monthly) used to synthesise a daily weather
+# series when a user has no station data. Values are representative coastal-Gulf
+# (Dubai-like) monthly means. ET0 is NOT stored here -- it is computed by the
+# FAO-56 Penman-Monteith engine from these drivers so the calculation stays auditable.
+#
+# t_mean/t_min/t_max : deg C
+# rh_mean            : %
+# wind_2m            : m/s at 2 m height
+# rs                 : incoming solar radiation, MJ/m2/day
+# rainfall_mm        : monthly total precipitation (mm)
+
+version: "1.0"
+
+stations:
+
+  - id: dubai_coastal
+    name: Dubai (coastal Gulf reference)
+    latitude_deg: 25.25
+    elevation_m: 5.0
+    months:
+      #      Tmin Tmax  RHmean Wind2m  Rs    Rain
+      - {month: 1,  t_min: 14.0, t_max: 24.0, rh_mean: 65, wind_2m: 2.8, rs: 15.5, rainfall_mm: 18.0}
+      - {month: 2,  t_min: 15.0, t_max: 25.5, rh_mean: 63, wind_2m: 3.0, rs: 18.5, rainfall_mm: 25.0}
+      - {month: 3,  t_min: 18.0, t_max: 29.0, rh_mean: 60, wind_2m: 3.2, rs: 21.5, rainfall_mm: 22.0}
+      - {month: 4,  t_min: 21.5, t_max: 33.5, rh_mean: 55, wind_2m: 3.3, rs: 24.5, rainfall_mm: 8.0}
+      - {month: 5,  t_min: 25.5, t_max: 38.5, rh_mean: 52, wind_2m: 3.3, rs: 26.5, rainfall_mm: 1.0}
+      - {month: 6,  t_min: 28.0, t_max: 40.5, rh_mean: 55, wind_2m: 3.5, rs: 26.0, rainfall_mm: 0.0}
+      - {month: 7,  t_min: 30.0, t_max: 42.0, rh_mean: 56, wind_2m: 3.4, rs: 25.5, rainfall_mm: 0.0}
+      - {month: 8,  t_min: 30.0, t_max: 42.0, rh_mean: 58, wind_2m: 3.2, rs: 24.5, rainfall_mm: 0.0}
+      - {month: 9,  t_min: 27.5, t_max: 39.5, rh_mean: 60, wind_2m: 3.0, rs: 22.5, rainfall_mm: 0.0}
+      - {month: 10, t_min: 24.0, t_max: 35.5, rh_mean: 60, wind_2m: 2.8, rs: 19.5, rainfall_mm: 1.0}
+      - {month: 11, t_min: 20.0, t_max: 31.0, rh_mean: 62, wind_2m: 2.7, rs: 16.5, rainfall_mm: 3.0}
+      - {month: 12, t_min: 16.0, t_max: 26.5, rh_mean: 64, wind_2m: 2.8, rs: 14.5, rainfall_mm: 15.0}

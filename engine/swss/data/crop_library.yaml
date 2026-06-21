@@ -1,0 +1,74 @@
+# Vegetation / crop library for the Plant Response Engine.
+#
+# kc_*           : FAO-56 single crop coefficients (init / mid / late).
+# root_depth_m   : effective rooting depth (m) over which root-zone storage is integrated.
+# depletion_frac : FAO-56 'p', the fraction of Total Available Water that can be
+#                  depleted before water stress begins (Readily Available Water = p * TAW).
+# stress note    : below RAW, transpiration is reduced linearly (FAO-56 Ks_stress).
+
+version: "1.0"
+
+crops:
+
+  - id: turf_cool
+    name: Cool-season Turf (ryegrass/fescue)
+    category: turf
+    kc_init: 0.90
+    kc_mid: 0.95
+    kc_late: 0.90
+    root_depth_m: 0.30
+    depletion_frac: 0.40
+
+  - id: turf_warm
+    name: Warm-season Turf (bermuda/paspalum)
+    category: turf
+    kc_init: 0.80
+    kc_mid: 0.85
+    kc_late: 0.80
+    root_depth_m: 0.40
+    depletion_frac: 0.50
+
+  - id: date_palm
+    name: Date Palm
+    category: trees
+    kc_init: 0.90
+    kc_mid: 0.95
+    kc_late: 0.95
+    root_depth_m: 1.50
+    depletion_frac: 0.65
+
+  - id: ornamental_tree
+    name: Ornamental / Amenity Tree
+    category: trees
+    kc_init: 0.65
+    kc_mid: 0.85
+    kc_late: 0.80
+    root_depth_m: 1.00
+    depletion_frac: 0.55
+
+  - id: shrub
+    name: Landscape Shrub
+    category: shrubs
+    kc_init: 0.50
+    kc_mid: 0.70
+    kc_late: 0.65
+    root_depth_m: 0.60
+    depletion_frac: 0.50
+
+  - id: native_xeric
+    name: Native / Xeric Species (Ghaf, desert natives)
+    category: native
+    kc_init: 0.30
+    kc_mid: 0.45
+    kc_late: 0.40
+    root_depth_m: 1.20
+    depletion_frac: 0.75
+
+  - id: vegetable_crop
+    name: Generic Vegetable Crop
+    category: crops
+    kc_init: 0.50
+    kc_mid: 1.05
+    kc_late: 0.85
+    root_depth_m: 0.50
+    depletion_frac: 0.45

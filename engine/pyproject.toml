@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "swss"
+version = "0.1.0"
+description = "GCC Soil Water Security Simulator - deterministic scientific engine"
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{name = "GDM Environmental Consultants & Studies CO. L.L.C."}]
+license = {text = "Proprietary"}
+dependencies = [
+    "numpy>=1.26",
+    "scipy>=1.11",
+    "pandas>=2.1",
+    "pydantic>=2.6",
+    "PyYAML>=6.0",
+    "reportlab>=4.0",
+]
+
+[project.optional-dependencies]
+ptf = ["rosetta-soil>=0.2"]
+dev = ["pytest>=8.0", "mypy>=1.8", "types-PyYAML"]
+
+[tool.setuptools.packages.find]
+include = ["swss*"]
+
+[tool.setuptools.package-data]
+swss = ["data/*.yaml"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.mypy]
+python_version = "3.11"
+ignore_missing_imports = true
+plugins = ["pydantic.mypy"]

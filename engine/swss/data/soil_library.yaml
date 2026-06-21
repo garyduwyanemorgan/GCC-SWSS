@@ -1,0 +1,61 @@
+# GCC reference soil library.
+#
+# Van Genuchten parameters are LITERATURE / typical values for GCC materials and
+# are flagged `requires_site_calibration: true`. In production a site borehole's
+# texture should be run through the Rosetta PTF (swss.soil.rosetta_ptf) instead.
+#
+# Units:
+#   theta_r, theta_s : cm3/cm3 (volumetric)
+#   alpha            : 1/cm   (van Genuchten)
+#   n                : dimensionless (> 1)
+#   ks               : cm/day (saturated hydraulic conductivity)
+# texture_class fractions are mass % and sum ~100.
+
+version: "1.0"
+
+soils:
+
+  - id: gcc_sand
+    name: GCC Sand
+    description: Clean aeolian/dune sand typical of inland UAE/KSA. Low storage, very high drainage.
+    texture: {sand: 94.0, silt: 4.0, clay: 2.0}
+    bulk_density: 1.62
+    organic_matter: 0.2
+    vg: {theta_r: 0.045, theta_s: 0.36, alpha: 0.145, n: 2.68, ks: 712.0}
+    requires_site_calibration: true
+
+  - id: calcareous_sand
+    name: Calcareous Sand
+    description: Carbonate-rich coastal sand, weakly cemented; moderate-high drainage.
+    texture: {sand: 88.0, silt: 8.0, clay: 4.0}
+    bulk_density: 1.55
+    organic_matter: 0.4
+    vg: {theta_r: 0.050, theta_s: 0.39, alpha: 0.124, n: 2.28, ks: 350.0}
+    requires_site_calibration: true
+
+  - id: sabkha
+    name: Sabkha
+    description: Salt-cemented silty sand of coastal flats. Highly saline; structure dissolution-sensitive.
+    texture: {sand: 70.0, silt: 22.0, clay: 8.0}
+    bulk_density: 1.70
+    organic_matter: 0.3
+    vg: {theta_r: 0.065, theta_s: 0.41, alpha: 0.075, n: 1.89, ks: 60.0}
+    requires_site_calibration: true
+
+  - id: sandy_loam
+    name: Sandy Loam
+    description: Imported/agricultural sandy loam used in landscaping and farms.
+    texture: {sand: 65.0, silt: 25.0, clay: 10.0}
+    bulk_density: 1.48
+    organic_matter: 1.2
+    vg: {theta_r: 0.065, theta_s: 0.41, alpha: 0.075, n: 1.89, ks: 106.1}
+    requires_site_calibration: true
+
+  - id: urban_fill
+    name: Urban Fill
+    description: Heterogeneous engineered fill (0-2 m), often hydraulically connected to utilities.
+    texture: {sand: 75.0, silt: 15.0, clay: 10.0}
+    bulk_density: 1.80
+    organic_matter: 0.5
+    vg: {theta_r: 0.057, theta_s: 0.38, alpha: 0.090, n: 1.95, ks: 200.0}
+    requires_site_calibration: true

@@ -1,0 +1,8 @@
+# API service depends on the engine (installed editable from ../engine in dev).
+fastapi>=0.110
+uvicorn[standard]>=0.27
+python-multipart>=0.0.9
+pydantic>=2.6
+# Supabase (Phase 4 - auth + persistence). Safe to install now; used lazily.
+supabase>=2.4
+PyJWT>=2.8

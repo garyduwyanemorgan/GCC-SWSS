@@ -1,0 +1,143 @@
+# GCC-SWSS canonical amendment library (valid YAML).
+#
+# Source of record: docs/spec/amendment_library.yaml (authored by Gary Morgan).
+# That file uses Markdown-style bullets and is NOT machine-parseable; this file
+# is the cleaned, validated equivalent the engine actually loads.
+#
+# All hydraulic effects are MULTIPLIERS applied to the baseline soil parameter:
+#     parameter_amended = parameter_baseline * multiplier
+# Each effect carries (min, likely, max) for 3-point and Monte Carlo uncertainty.
+# Ks effects can be texture-specific (ks_sandy / ks_clayey); `ks` applies to both.
+#
+# confidence drives the Strength-of-Evidence ranking surfaced in every report:
+#   HIGH  -> biochar, compost
+#   MEDIUM-> engineered_biochar, biosolids, polymer
+#   LOW   -> lnc, biopolymer
+
+version: "1.0"
+
+amendments:
+
+  - id: biochar
+    name: Biochar
+    confidence: HIGH
+    mechanism:
+      - increases_porosity
+      - increases_micropores
+      - reduces_bulk_density
+      - increases_water_retention
+      - alters_hydraulic_conductivity
+    hydraulic_effects:
+      theta_s: {min: 1.02, likely: 1.08, max: 1.15}
+      theta_r: {min: 1.00, likely: 1.10, max: 1.30}
+      alpha:   {min: 0.70, likely: 0.90, max: 1.10}
+      n:       {min: 0.90, likely: 1.00, max: 1.10}
+      ks_sandy:  {min: 0.30, likely: 0.60, max: 1.20}
+      ks_clayey: {min: 0.80, likely: 1.10, max: 1.50}
+      available_water_capacity: {min: 1.05, likely: 1.20, max: 1.35}
+      bulk_density: {min: 0.85, likely: 0.92, max: 0.98}
+    notes:
+      - strongest evidence base
+      - strongest response in coarse textured soils
+      - effect strongly dependent on particle size
+      - effect strongly dependent on application rate
+
+  - id: engineered_biochar
+    name: Engineered Biochar
+    confidence: MEDIUM
+    mechanism:
+      - controlled_porosity
+      - enhanced_surface_area
+      - nutrient_retention
+    hydraulic_effects:
+      theta_s: {min: 1.05, likely: 1.12, max: 1.25}
+      theta_r: {min: 1.05, likely: 1.15, max: 1.40}
+      alpha:   {min: 0.60, likely: 0.85, max: 1.10}
+      n:       {min: 0.90, likely: 1.00, max: 1.10}
+      available_water_capacity: {min: 1.10, likely: 1.25, max: 1.45}
+
+  - id: compost
+    name: Compost
+    confidence: HIGH
+    mechanism:
+      - organic_matter_increase
+      - aggregation
+      - improved_structure
+    hydraulic_effects:
+      theta_s: {min: 1.02, likely: 1.08, max: 1.15}
+      theta_r: {min: 1.05, likely: 1.15, max: 1.35}
+      alpha:   {min: 0.80, likely: 0.95, max: 1.10}
+      n:       {min: 0.95, likely: 1.00, max: 1.05}
+      ks_sandy:  {min: 0.70, likely: 0.90, max: 1.20}
+      ks_clayey: {min: 0.90, likely: 1.20, max: 1.60}
+      available_water_capacity: {min: 1.05, likely: 1.15, max: 1.30}
+
+  - id: biosolids
+    name: Biosolids
+    confidence: MEDIUM
+    mechanism:
+      - organic_matter_increase
+      - aggregation
+      - nutrient_supply
+    hydraulic_effects:
+      theta_s: {min: 1.02, likely: 1.06, max: 1.12}
+      theta_r: {min: 1.05, likely: 1.12, max: 1.25}
+      alpha:   {min: 0.80, likely: 0.95, max: 1.05}
+      n:       {min: 0.95, likely: 1.00, max: 1.05}
+      available_water_capacity: {min: 1.03, likely: 1.12, max: 1.25}
+
+  - id: lnc
+    name: Lignite Nanocarbon
+    confidence: LOW
+    mechanism:
+      - organic_colloid_effects
+      - pore_modification
+    hydraulic_effects:
+      theta_s: {min: 1.00, likely: 1.05, max: 1.15}
+      theta_r: {min: 1.00, likely: 1.08, max: 1.20}
+      alpha:   {min: 0.85, likely: 0.95, max: 1.05}
+      n:       {min: 0.95, likely: 1.00, max: 1.05}
+      available_water_capacity: {min: 1.00, likely: 1.10, max: 1.25}
+    warning: limited_peer_reviewed_hydraulic_data
+
+  - id: polymer
+    name: Water Absorbing Polymer
+    confidence: MEDIUM
+    mechanism:
+      - temporary_storage
+      - swelling
+      - delayed_release
+    hydraulic_effects:
+      theta_s: {min: 1.10, likely: 1.30, max: 1.80}
+      theta_r: {min: 1.05, likely: 1.20, max: 1.50}
+      alpha:   {min: 0.40, likely: 0.70, max: 1.00}
+      n:       {min: 0.80, likely: 0.95, max: 1.05}
+      available_water_capacity: {min: 1.20, likely: 1.50, max: 2.50}
+    warning: performance_degrades_over_time
+
+  - id: biopolymer
+    name: Dust Suppression Biopolymer
+    confidence: LOW
+    mechanism:
+      - surface_sealing
+      - aggregation
+      - crust_stabilization
+    hydraulic_effects:
+      theta_s: {min: 0.95, likely: 1.00, max: 1.05}
+      theta_r: {min: 1.00, likely: 1.05, max: 1.15}
+      alpha:   {min: 0.70, likely: 0.90, max: 1.10}
+      n:       {min: 0.90, likely: 1.00, max: 1.10}
+      ks:      {min: 0.30, likely: 0.70, max: 1.00}
+    warning: may_reduce_infiltration
+
+  - id: custom
+    name: User Defined Amendment
+    confidence: USER_DEFINED
+    editable:
+      - theta_s
+      - theta_r
+      - alpha
+      - n
+      - ks
+      - bulk_density
+      - cost

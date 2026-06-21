@@ -1,0 +1,19 @@
+# Render.com blueprint for the GCC-SWSS engine API.
+# The Dockerfile builds the engine (with the rosetta-soil PTF extra) and the API.
+services:
+  - type: web
+    name: gcc-swss-api
+    runtime: docker
+    dockerfilePath: ./api/Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    plan: starter
+    envVars:
+      - key: SWSS_CORS_ORIGINS
+        sync: false           # e.g. https://your-app.vercel.app
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_KEY
+        sync: false
+      - key: SUPABASE_JWT_SECRET
+        sync: false
