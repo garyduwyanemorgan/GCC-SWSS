@@ -76,7 +76,7 @@ create table if not exists public.leads (
 );
 
 -- ----------------------------------------------------------------------------
--- Row-Level Security
+-- Row-Level Security (idempotent: drop-then-create so re-runs are safe)
 -- ----------------------------------------------------------------------------
 alter table public.profiles    enable row level security;
 alter table public.projects    enable row level security;
@@ -86,6 +86,7 @@ alter table public.sim_results enable row level security;
 alter table public.leads       enable row level security;
 
 -- profiles: owner can read/update own row
+drop policy if exists "profiles self" on public.profiles;
 create policy "profiles self" on public.profiles
   for all using (auth.uid() = id) with check (auth.uid() = id);
 
@@ -94,6 +95,7 @@ do $$
 declare t text;
 begin
   foreach t in array array['projects','boreholes','scenarios','sim_results'] loop
+    execute format('drop policy if exists "%1$s owner" on public.%1$s;', t);
     execute format($f$
       create policy "%1$s owner" on public.%1$s
         for all using (auth.uid() = owner) with check (auth.uid() = owner);
@@ -102,6 +104,7 @@ begin
 end $$;
 
 -- leads: anonymous visitors may INSERT only; nobody can read via the anon key
+drop policy if exists "leads insert" on public.leads;
 create policy "leads insert" on public.leads
   for insert with check (true);
 

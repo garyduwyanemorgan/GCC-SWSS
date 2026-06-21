@@ -15,7 +15,7 @@ Supabase (DB)  ->  Render (API)  ->  Vercel (web)  ->  GoDaddy (DNS)
 ## 1. Supabase — database + auth
 
 1. Create a project at https://supabase.com (free tier).
-2. Open **SQL Editor**, paste the contents of `supabase/migrations/0001_init.sql`, run it.
+2. Open **SQL Editor**, paste the contents of `supabase/migrations/20260621000000_init.sql`, run it.
 3. From **Project Settings → API**, copy:
    - `Project URL`            → `SUPABASE_URL`
    - `service_role` secret    → `SUPABASE_SERVICE_KEY`  (server-only, never in the browser)

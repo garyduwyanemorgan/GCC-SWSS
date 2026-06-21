@@ -56,7 +56,7 @@ amendment can raise available-water storage while the irrigation requirement doe
 - **Phase 1 (done):** engine — all six layers, flux attribution, Monte Carlo, WSI, economics, PDF.
 - **Phase 2 (done):** FastAPI API (`/simulate`, `/report`, `/libraries`, `/leads`, `/health`).
 - **Phase 3 (done):** Next.js dashboard + marketing/lead capture.
-- **Phase 4:** wire Supabase (Auth + Postgres) using `supabase/migrations/0001_init.sql`.
+- **Phase 4:** wire Supabase (Auth + Postgres) using `supabase/migrations/20260621000000_init.sql`.
 - **Phase 5 (future):** AI-vision lab-PDF parser, "explain this result" assistant, salinity module.
 
 © GDM Environmental Consultants & Studies CO. L.L.C. — Lead concept: Gary Morgan.
