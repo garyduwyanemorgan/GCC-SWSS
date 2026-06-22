@@ -1,8 +1,11 @@
 "use client";
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import {
   API_URL, getLibrary, ProjectInput, reportUrl, simulate, SimResult,
 } from "@/lib/api";
+import { loadScenario, saveScenario } from "@/lib/db";
+import { useAuth } from "@/components/AuthProvider";
 import FluxAttribution from "@/components/FluxAttribution";
 import ScenarioTable from "@/components/ScenarioTable";
 
@@ -26,16 +29,24 @@ const initialProject = (): ProjectInput => ({
 });
 
 export default function Simulator() {
+  const { session } = useAuth();
   const [p, setP] = useState<ProjectInput>(initialProject);
   const [crops, setCrops] = useState<{ id: string; name: string }[]>([]);
   const [amendments, setAmendments] = useState<{ id: string; name: string; confidence: string }[]>([]);
   const [result, setResult] = useState<SimResult | null>(null);
   const [busy, setBusy] = useState(false);
   const [err, setErr] = useState<string | null>(null);
+  const [saveName, setSaveName] = useState("");
+  const [saveState, setSaveState] = useState<"idle" | "saving" | "saved" | "error">("idle");
 
   useEffect(() => {
     getLibrary("crop").then(setCrops).catch(() => {});
     getLibrary("amendment").then(setAmendments).catch(() => {});
+    // Load a saved scenario if ?scenario=<uuid> is in the URL
+    const sid = new URLSearchParams(window.location.search).get("scenario");
+    if (sid) {
+      loadScenario(sid).then((s) => { if (s) setP(s.payload); }).catch(() => {});
+    }
   }, []);
 
   function setSoil(patch: Partial<ProjectInput["soil"]>) {
@@ -54,13 +65,24 @@ export default function Simulator() {
   }
 
   async function run() {
-    setBusy(true); setErr(null);
+    setBusy(true); setErr(null); setSaveState("idle");
     try {
       setResult(await simulate(p));
     } catch (e: any) {
       setErr(e.message ?? "Simulation failed");
     } finally {
       setBusy(false);
+    }
+  }
+
+  async function doSave() {
+    if (!result) return;
+    setSaveState("saving");
+    try {
+      await saveScenario(p.project_name, saveName || p.project_name, p, result);
+      setSaveState("saved");
+    } catch (e: any) {
+      setSaveState("error");
     }
   }
 
@@ -189,6 +211,38 @@ export default function Simulator() {
               <button className="ghost" style={{ marginTop: 14 }} onClick={downloadPdf}>
                 Download PDF report
               </button>
+
+              {session ? (
+                saveState === "saved" ? (
+                  <p className="ok" style={{ marginTop: 10, fontSize: 13 }}>
+                    Saved. <Link href="/projects">View in My Projects →</Link>
+                  </p>
+                ) : (
+                  <div style={{ marginTop: 12 }}>
+                    <input
+                      placeholder={`Scenario name (default: "${p.project_name}")`}
+                      value={saveName}
+                      onChange={(e) => setSaveName(e.target.value)}
+                      style={{ marginBottom: 8 }}
+                    />
+                    <button
+                      className="ghost"
+                      style={{ width: "100%" }}
+                      onClick={doSave}
+                      disabled={saveState === "saving"}
+                    >
+                      {saveState === "saving" ? "Saving…" : "Save to My Projects"}
+                    </button>
+                    {saveState === "error" && (
+                      <p className="err" style={{ fontSize: 12 }}>Save failed. Please try again.</p>
+                    )}
+                  </div>
+                )
+              ) : (
+                <p className="muted" style={{ fontSize: 12, marginTop: 10 }}>
+                  <Link href="/auth">Sign in</Link> to save results to My Projects.
+                </p>
+              )}
             </div>
 
             {result.comparisons.some((c) => c.bands.length > 0) && (

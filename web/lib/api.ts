@@ -1,7 +1,14 @@
 // Typed client for the GCC-SWSS engine API.
+import { supabase } from "./supabase";
 
 export const API_URL =
   process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+
+async function getToken(): Promise<string | null> {
+  if (!supabase) return null;
+  const { data } = await supabase.auth.getSession();
+  return data.session?.access_token ?? null;
+}
 
 export interface SoilTexture { sand: number; silt: number; clay: number; }
 
@@ -86,9 +93,12 @@ export interface SimResult {
 }
 
 async function post<T>(path: string, body: unknown): Promise<T> {
+  const token = await getToken();
+  const headers: Record<string, string> = { "Content-Type": "application/json" };
+  if (token) headers["Authorization"] = `Bearer ${token}`;
   const res = await fetch(`${API_URL}${path}`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers,
     body: JSON.stringify(body),
   });
   if (!res.ok) {
